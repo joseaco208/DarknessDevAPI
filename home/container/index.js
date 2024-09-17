@@ -4,7 +4,7 @@ const fs = require('fs');
 const cron = require('node-cron');
 const NodeCache = require('node-cache');
 const app = express();
-const port = 10195;
+const port = 3000;
 
 const FILE_LIFETIME = 1 * 60 * 60 * 1000; // Tiempo de vida del archivo en milisegundos (1 hora)
 const PUBLIC_DIR = path.join('/home/container', 'public'); // Directorio de la carpeta public
