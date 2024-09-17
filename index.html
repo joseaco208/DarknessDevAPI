@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de DarknessDev</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css"> <!-- Enlace al archivo CSS -->
+</head>
+<body>
+    <header>
+        <h1>API de DarknessDev</h1>
+    </header>
+
+    <div class="container">
+        <button class="button button-bw" id="darkModeButton" onclick="toggleDarkMode()">Modo Oscuro</button>
+        <h2 id="endpoints">Endpoints Disponibles</h2>
+        <p>Esta API ofrece varios servicios principales:</p>
+
+        <div class="endpoint">
+            <h3>1. Conversión de Códigos Hexadecimales a Nombres de Colores</h3>
+            <p>Ruta: <span class="route">/color?hex=</span></p>
+            <p>Descripción: Este endpoint convierte un código hexadecimal de color en su nombre correspondiente en español.</p>
+            <p>Parámetro requerido: <strong>hex</strong>: El código hexadecimal del color. Ejemplo:<span class="route">FF5733</span></p>
+            <p>Ejemplo de solicitud: <span class="route">/color?hex=FF5733</span></p>
+            <p>Respuesta esperada: El nombre del color en español.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>2. Conversión de Timestamp Unix a Tiempo Formateado</h3>
+            <p>Ruta: <span class="route">/timestamp?unix=</span></p>
+            <p>Descripción: Convierte un timestamp Unix a un formato legible.</p>
+            <p>Parámetro requerido: <strong>unix</strong>: El timestamp Unix en segundos.</p>
+            <p>Ejemplo de solicitud: <span class="route">/timestamp?unix=60</span></p>
+            <p>Respuesta esperada: El tiempo formateado.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>3. Diferencia de Días Entre Fechas</h3>
+            <p>Ruta: <span class="route">/datediff?date1=&date2=</span></p>
+            <p>Descripción: Calcula la diferencia en días entre dos fechas.</p>
+            <p>Parámetros requeridos: <strong>date1</strong> y <strong>date2</strong> en formato ISO.</p>
+            <p>Ejemplo de solicitud: <span class="route">/datediff?date1=2023-01-01&date2=2024-08-21</span></p>
+            <p>Respuesta esperada: La diferencia en días.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>4. Conversión de Unidades</h3>
+            <p>Ruta: <span class="route">/convertirunidad?valor=&de=&a=</span></p>
+            <p>Descripción: Convierte una cantidad de una unidad a otra.</p>
+            <p>Parámetros requeridos: <strong>valor</strong>, <strong>de</strong> y <strong>a</strong>.</p>
+            <p>Ejemplo de solicitud: <span class="route">/convertirunidad?valor=10&de=metros&a=pies</span></p>
+            <p>Respuesta esperada: La cantidad convertida.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>5. Unidades Disponibles</h3>
+            <p>Ruta: <span class="route">/unidades</span></p>
+            <p>Descripción: Devuelve una lista de todas las unidades disponibles.</p>
+            <p>Ejemplo de solicitud: <span class="route">/unidades</span></p>
+            <p>Respuesta esperada: Lista de unidades.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>6. Conversión de Texto a Código Morse</h3>
+            <p>Ruta: <span class="route">/morse?text=</span></p>
+            <p>Descripción: Convierte un texto en código morse.</p>
+            <p>Parámetro requerido: <strong>text</strong>.</p>
+            <p>Ejemplo de solicitud: <span class="route">/morse?text=Hola</span></p>
+            <p>Respuesta esperada: El código morse correspondiente.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>7. Generación de QR Codes</h3>
+            <p>Ruta: <span class="route">/qr?text=</span></p>
+            <p>Descripción: Genera un código QR basado en el texto proporcionado.</p>
+            <p>Parámetro requerido: <strong>text</strong>: El texto que deseas convertir en un código QR.</p>
+            <p>Ejemplo de solicitud: <span class="route">/qr?text=Lo que quieras convertir en QR</span></p>
+            <p>Respuesta esperada: Una imagen del código QR que representa el texto proporcionado.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>8. Obtener Información de Invitaciones de Discord</h3>
+            <p>Ruta: <span class="route">/inviteinfo?token=&guild_id=&member_id=</span></p>
+            <p>Descripción: Este endpoint te permite obtener información sobre las invitaciones creadas por un miembro en un servidor de Discord.</p>
+            <p>Parámetros requeridos: <strong>token</strong>: El token de autenticación del bot de Discord, <strong>guild_id</strong>: El ID del servidor de Discord, <strong>member_id</strong>: El ID del miembro de Discord.</p>
+            <p>Ejemplo de solicitud: <span class="route">/inviteinfo?token=TU_TOKEN&guild_id=ID_DEL_SERVIDOR&member_id=ID_DEL_MIEMBRO</span></p>
+            <p>Respuesta esperada: Un objeto con información sobre las invitaciones.</p>
+        </div>
+
+        <div class="endpoint">
+            <h3>9. Obtener Información de un Rol</h3>
+            <p>Ruta: <span class="route">/roleinfo?token=&guild_id=&role_id=</span></p>
+            <p>Descripción: Este endpoint permite obtener información sobre un rol específico en un servidor de Discord. Proporciona detalles como el nombre del rol, su color, permisos y los miembros que tienen asignado ese rol.</p>
+            <p>Parámetros requeridos:
+                <strong>token</strong>: El token de autenticación del bot de Discord.
+                <strong>guild_id</strong>: El ID del servidor de Discord donde se encuentra el rol.
+                <strong>role_id</strong>: El ID del rol del cual se desea obtener información.
+            </p>
+            <p>Ejemplo de solicitud: <span class="route">/roleinfo?token=TU_TOKEN&guild_id=ID_DEL_SERVIDOR&role_id=ID_DEL_ROL</span></p>
+            <p>Respuesta esperada: Un objeto JSON que contiene la información del rol, incluyendo:
+                <ul>
+                    <li>Nombre del rol</li>
+                    <li>Color del rol</li>
+                    <li>Permisos asociados</li>
+                    <li>Lista de miembros que tienen ese rol</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="endpoint">
+            <h3>10. Obtener Información de un Usuario</h3>
+            <p>Ruta: <span class="route">/userinfo?token=&guildID=&memberID=</span></p>
+            <p>Descripción: Este endpoint permite obtener información sobre un usuario específico en un servidor de Discord. Proporciona detalles como el apodo, nombre de usuario, ID, estado de presencia y permisos.</p>
+            <p>Parámetros requeridos:
+                <ul>
+                    <li><strong>token</strong>: El token de autenticación del bot de Discord.</li>
+                    <li><strong>guildID</strong>: El ID del servidor de Discord donde se encuentra el usuario.</li>
+                    <li><strong>memberID</strong>: El ID del usuario del cual se desea obtener información.</li>
+                </ul>
+            </p>
+            <p>Ejemplo de solicitud: <span class="route">/userinfo?token=TU_TOKEN&guildID=ID_DEL_SERVIDOR&memberID=ID_DEL_USUARIO</span></p>
+            <p>Respuesta esperada: Un objeto JSON que contiene la información del usuario, incluyendo:
+                <ul>
+                    <li>Apodo</li>
+                    <li>Nombre de usuario</li>
+                    <li>ID de usuario</li>
+                    <li>Estado de presencia</li>
+                    <li>Permisos</li>
+                    <li>Imagen de perfil</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="endpoint">
+            <h3>11. Búsqueda de Imágenes</h3>
+            <p>Ruta: <span class="route">/search-images?q=</span></p>
+            <p>Descripción: Busca imágenes basadas en una consulta proporcionada.</p>
+            <p>Parámetro requerido: <strong>q</strong>: La consulta de búsqueda para encontrar imágenes.</p>
+            <p>Ejemplo de solicitud: <span class="route">/search-images?q=auroras</span></p>
+            <p>Respuesta esperada: Un array de URLs de imágenes que coinciden con la consulta.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 DarknessDev. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/script.js"></script> <!-- Enlace al archivo JavaScript -->
+</body>
+</html>
