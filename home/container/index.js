@@ -4,13 +4,10 @@ const fs = require('fs');
 const cron = require('node-cron');
 const NodeCache = require('node-cache');
 const app = express();
-
-// Usar el puerto proporcionado por Railway o el puerto 3000 como fallback en desarrollo
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080; // Usar el puerto proporcionado por Railway
 
 const FILE_LIFETIME = 1 * 60 * 60 * 1000; // Tiempo de vida del archivo en milisegundos (1 hora)
-const PUBLIC_DIR = path.join(__dirname, 'public'); // Directorio de la carpeta public
-const INDEX_FILE = path.join(__dirname, 'index.html'); // Ruta del archivo index.html
+const BASE_DIR = __dirname; // Directorio base
 
 // Crear instancia de node-cache
 const myCache = new NodeCache();
@@ -19,8 +16,8 @@ const myCache = new NodeCache();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos desde la carpeta home/container/public
-app.use(express.static(PUBLIC_DIR));
+// Servir archivos estáticos desde la misma carpeta que index.html
+app.use(express.static(BASE_DIR)); // Sirve archivos estáticos desde home/container
 
 // Ruta principal para servir index.html
 app.get('/', (req, res) => {
@@ -28,10 +25,10 @@ app.get('/', (req, res) => {
     
     if (cachedIndex) {
         console.log('Usando página principal desde el caché');
-        res.setHeader('Content-Type', 'text/html'); // Asegúrate de que el tipo de contenido sea HTML
         res.send(cachedIndex); // Enviar el archivo desde el caché si está almacenado
     } else {
-        fs.readFile(INDEX_FILE, (err, data) => {
+        const indexPath = path.join(BASE_DIR, 'index.html');
+        fs.readFile(indexPath, (err, data) => {
             if (err) {
                 console.error('Error al leer index.html:', err);
                 res.status(500).send('Error interno del servidor');
@@ -39,8 +36,7 @@ app.get('/', (req, res) => {
             }
             myCache.set('index', data, 3600); // Cachear por 1 hora
             console.log('Almacenando página principal en el caché');
-            res.setHeader('Content-Type', 'text/html'); // Asegúrate de que el tipo de contenido sea HTML
-            res.send(data);
+            res.send(data.toString());
         });
     }
 });
@@ -73,14 +69,14 @@ app.use('/search-images', searchImagesRoute); // Nueva ruta
 
 // Tarea programada para limpiar archivos antiguos en la carpeta public
 cron.schedule('0 * * * *', () => {
-    fs.readdir(PUBLIC_DIR, (err, files) => {
+    fs.readdir(BASE_DIR, (err, files) => {
         if (err) {
-            console.error('Error al leer el directorio public:', err);
+            console.error('Error al leer el directorio base:', err);
             return;
         }
 
         files.forEach(file => {
-            const filePath = path.join(PUBLIC_DIR, file);
+            const filePath = path.join(BASE_DIR, file);
             fs.stat(filePath, (err, stats) => {
                 if (err) {
                     console.error(`Error al obtener el estado del archivo ${filePath}:`, err);
@@ -104,5 +100,5 @@ cron.schedule('0 * * * *', () => {
 
 // Iniciar el servidor
 app.listen(port, () => {
-    console.log(`Servidor corriendo en http://darknessbdfd.mooo.com:${port}/`);
+    console.log(`Servidor corriendo en http://darknessdevapi.onrender.com:${port}/`);
 });
