@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
     
     if (cachedIndex) {
         console.log('Usando página principal desde el caché');
+        res.setHeader('Content-Type', 'text/html'); // Asegúrate de que el tipo de contenido sea HTML
         res.send(cachedIndex); // Enviar el archivo desde el caché si está almacenado
     } else {
         fs.readFile(INDEX_FILE, (err, data) => {
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
             }
             myCache.set('index', data, 3600); // Cachear por 1 hora
             console.log('Almacenando página principal en el caché');
+            res.setHeader('Content-Type', 'text/html'); // Asegúrate de que el tipo de contenido sea HTML
             res.send(data);
         });
     }
