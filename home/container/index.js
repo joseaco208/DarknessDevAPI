@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const FILE_LIFETIME = 1 * 60 * 60 * 1000; // Tiempo de vida del archivo en milisegundos (1 hora)
-const PUBLIC_DIR = path.join('/home/container', 'public'); // Directorio de la carpeta public
+const PUBLIC_DIR = path.join(__dirname, 'home', 'container', 'public'); // Directorio de la carpeta public
 
 // Crear instancia de node-cache
 const myCache = new NodeCache();
@@ -20,8 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
-// Servir archivos estáticos desde la raíz del proyecto
-app.use(express.static('/home/container')); // Servir archivos estáticos desde la raíz del proyecto
+// Servir archivos estáticos desde la carpeta /home/container/
+app.use(express.static(path.join(__dirname, 'home', 'container')));
 
 // Ruta principal para servir index.html
 app.get('/', (req, res) => {
@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
         console.log('Usando página principal desde el caché');
         res.send(cachedIndex); // Enviar el archivo desde el caché si está almacenado
     } else {
-        const indexPath = path.join('/home/container', 'index.html');
+        const indexPath = path.join(__dirname, 'home', 'container', 'index.html');
         fs.readFile(indexPath, (err, data) => {
             if (err) {
                 console.error('Error al leer index.html:', err);
